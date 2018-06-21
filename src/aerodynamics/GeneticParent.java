@@ -33,6 +33,7 @@ public class GeneticParent extends Thread{
             }catch(InterruptedException e){}
         }
         
+        // Main loop
         while(true){
             
             iteration++;
@@ -42,6 +43,7 @@ public class GeneticParent extends Thread{
             if(iteration == maxIterations)
                 break;
             
+            // Mutate the nozzles
             for(int i = 0; i < choises; i++){
                 Nozzle[] mutations = top[i].mutate();
                 for(int j = 0; j < 5; j++)
@@ -50,6 +52,7 @@ public class GeneticParent extends Thread{
             }
         }
         
+        // Install the winning nozzle and let it run
         iteration++;
         sim.reset();
         bestNozzle.install();
@@ -60,18 +63,22 @@ public class GeneticParent extends Thread{
     
     public static Nozzle[] evaluate(){
         
-        
+        // Loop through each nozzle
         for(int i = 0; i < nozzleCount; i++){
+            // Install the nozzle
             sim.reset();
             nozzles[i].install();
             
             nozzle = i+1;
+            // Evaluate the nozzle
             nozzles[i].points = sim.run();
             
+            // Update statistics for visuals
             if(i == 0 || nozzles[i].points > topPoints){
                 topPoints = nozzles[i].points;
                 topNum = i;
             }
+            // Track the best nozzle
             if(nozzles[i].points > bestPoints){
                 bestPoints = nozzles[i].points;
                 bestNozzle = nozzles[i];
@@ -80,6 +87,7 @@ public class GeneticParent extends Thread{
             //System.out.println(nozzles[i].points);
         }
         
+        // Find the best nozzle indices for reproduction
         int[] top = new int[choises];
         for(int i = 0; i < choises; i++)
             top[i] = -1;
@@ -101,6 +109,7 @@ public class GeneticParent extends Thread{
             }
         }
         
+        // Make a collection of the best nozzle objects
         Nozzle[] bestOnes = new Nozzle[choises];
         
         for(int i = 0; i < choises; i++)

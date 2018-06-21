@@ -11,7 +11,7 @@ public class Aerodynamics{
     public static void main(String[] args){
         fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        fr.setSize(Draw.width + 6, Draw.height + 28);
+        fr.setSize(Draw.width + 6, Draw.height + 35);
         fr.add(panel);
         fr.setResizable(false);
         fr.setLocation(150, 20);

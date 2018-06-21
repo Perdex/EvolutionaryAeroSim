@@ -46,6 +46,7 @@ public class Simulation{
             
         int maxFrames = 150 + (int)(Math.sqrt(GeneticParent.iteration) * 40);
         
+        
         if(GeneticParent.iteration == GeneticParent.maxIterations + 1)
             maxFrames = 1000000000;
         
@@ -53,13 +54,11 @@ public class Simulation{
             
             ArrayList<Integer> toRemove = new ArrayList<Integer>();
             
-            
             //run particles
             try{
                 //move all particles at once
                 for(int i = 0; i < particles.size(); i++){
                     AirParticle p = particles.get(i);
-                    
                     
                     if(p.move(deltaTime()))
                         toRemove.add(i);
@@ -122,25 +121,26 @@ public class Simulation{
             
         }//while loop
         
-        
-        
+        // wait for sync
         try{
             Thread.sleep(5);
         }catch(Exception e){}
         
         
-        
+        // Add together all the horizontal velocities
         for(AirParticle p: particles)
             rank += p.xs;
         
+        // Add a penalty for max pressure
         int maxPressure = 0;
         for(PressurePoint[] p: metaArray)
             for(PressurePoint p2: p)
                 if(p2.p > maxPressure)
                     maxPressure = p2.p;
         
-        
+        // Pressure penalty is division by squared max pressure
         rank = Math.abs(rank) / (1 + maxPressure * maxPressure / 200);
+        //rank = Math.abs(rank);
         
         return (int)((rank - ranky) / maxFrames);
         

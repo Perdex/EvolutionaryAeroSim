@@ -9,6 +9,7 @@ public class Nozzle {
     public int points = 0;
     public ArrayList<Line> lines = new ArrayList();
     
+    // Initial constructor
     public Nozzle(){
         createSegments(3);
     }
@@ -24,15 +25,17 @@ public class Nozzle {
     }//createSegments
     
     
+    // Copy-mutate constructor
     public Nozzle(ArrayList<Line> l){
         lines = l;
         
+        // Mutate a random number of lines
         int r = (int)Math.pow(Math.random() * 3, 2);
         for(int i = 0; i < r; i++){
             lines.get((int)(lines.size() * Math.random())).mutate();
         }
         
-        
+        // 10% of the time, add a segment. 10% of the time, remove a segment.
         r = (int)(Math.random() * 10);
         if(r == 0){
             createSegments(1);
@@ -41,7 +44,7 @@ public class Nozzle {
         }
     }//public nozzle
     
-    
+    // Replaces the simulated nozzle with this one
     public void install(){
         
         Simulation.lines = new ArrayList();
@@ -53,7 +56,7 @@ public class Nozzle {
         
     }//install
     
-    
+    // Create 5 offspring
     public Nozzle[] mutate(){
         Nozzle[] mutations = new Nozzle[5];
         
